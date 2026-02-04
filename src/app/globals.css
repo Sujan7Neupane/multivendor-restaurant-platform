@@ -1,1 +1,8 @@
 @import "tailwindcss";
+
+/* for the navbar collapse of superadmin  */
+.peer:checked ~ * [class*="peer-checked:"] {
+  transition-property: opacity, width, margin, height;
+  transition-duration: 300ms;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+}

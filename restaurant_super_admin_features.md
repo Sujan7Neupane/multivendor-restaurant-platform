@@ -21,7 +21,7 @@ The Super Admin has full control over **one restaurant**. This role manages sett
 ### 4. Order Management
 - View and manage all orders
 - Update order status and handle cancellations
-n### 5. Analytics & Reports
+- Analytics & Reports
 - View sales and order reports
 - Track basic performance metrics
 
