@@ -60,7 +60,7 @@ function AddRestaurant() {
               </div>
 
               {/* Right Side Fields */}
-              <div className="flex-1 grid sm:grid-cols-1 gap-4 ml-7">
+              <div className="flex-1 grid sm:grid-cols-1 gap-4 sm:ml-7">
                 {/* Company Name */}
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-2">

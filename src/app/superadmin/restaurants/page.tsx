@@ -202,6 +202,19 @@ export default function Restaurants() {
           </div>
         ))}
       </div>
+
+      {/* Pagination Placeholder */}
+      <div className="mt-6 flex justify-between items-center text-sm text-gray-600">
+        <span>Showing 1–{restaurants.length} orders</span>
+        <div className="flex gap-2">
+          <Button variant="outline" size="sm">
+            Prev
+          </Button>
+          <Button variant="outline" size="sm">
+            Next
+          </Button>
+        </div>
+      </div>
     </div>
   );
 }
