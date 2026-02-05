@@ -1,4 +1,12 @@
-import { Search, Plus, ChevronDown, Eye, Ban } from "lucide-react";
+import {
+  Search,
+  Plus,
+  ChevronDown,
+  Eye,
+  Ban,
+  CheckCircle,
+  X,
+} from "lucide-react";
 import Button from "@/components/ui/Button";
 import Input from "@/components/ui/Input";
 import Link from "next/link";
@@ -26,14 +34,11 @@ export default function Restaurants() {
       {/* Filters */}
       <div className="flex flex-col sm:flex-row gap-3 mb-6">
         {/* Search Input */}
-        <div className="relative w-full sm:w-80">
-          <Input
-            placeholder="Search restaurant..."
-            Icon={Search}
-            className="sm:w-80"
-          />
-          <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
-        </div>
+        <Input
+          placeholder="Search restaurant..."
+          Icon={Search}
+          className="sm:w-80"
+        />
 
         {/* Status Filter */}
         <div className="relative w-full sm:w-auto">
@@ -75,10 +80,10 @@ export default function Restaurants() {
               <td className="px-4 py-3 text-gray-600">2026-02-01</td>
               <td className="px-4 py-3">
                 <div className="flex gap-2">
-                  <Button variant="outline" size="sm">
+                  <Button variant="outline" size="sm" Icon={Eye}>
                     View
                   </Button>
-                  <Button variant="danger" size="sm">
+                  <Button variant="danger" size="sm" Icon={Ban}>
                     Suspend
                   </Button>
                 </div>
@@ -99,10 +104,10 @@ export default function Restaurants() {
               <td className="px-4 py-3 text-gray-600">2026-02-02</td>
               <td className="px-4 py-3">
                 <div className="flex gap-2">
-                  <Button variant="success" size="sm">
+                  <Button variant="success" size="sm" Icon={CheckCircle}>
                     Approve
                   </Button>
-                  <Button variant="danger" size="sm">
+                  <Button variant="danger" size="sm" Icon={X}>
                     Reject
                   </Button>
                 </div>
@@ -128,11 +133,11 @@ export default function Restaurants() {
 
           <p className="text-sm text-gray-500 mb-4">Created: 2026-02-01</p>
 
-          <div className="flex gap-2">
-            <Button variant="outline" size="sm" Icon={Eye}>
+          <div className="grid grid-cols-2 gap-2">
+            <Button variant="outline" Icon={Eye}>
               View
             </Button>
-            <Button variant="danger" size="sm" Icon={Ban}>
+            <Button variant="danger" Icon={Ban}>
               Suspend
             </Button>
           </div>
@@ -152,11 +157,11 @@ export default function Restaurants() {
 
           <p className="text-sm text-gray-500 mb-4">Created: 2026-02-02</p>
 
-          <div className="flex gap-2">
-            <Button variant="success" className="flex-1">
+          <div className="grid grid-cols-2 gap-2">
+            <Button variant="success" Icon={CheckCircle}>
               Approve
             </Button>
-            <Button variant="danger" className="flex-1">
+            <Button variant="danger" Icon={X}>
               Reject
             </Button>
           </div>
