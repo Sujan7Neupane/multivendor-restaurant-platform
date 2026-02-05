@@ -1,4 +1,4 @@
-import { Search, Plus, ChevronDown } from "lucide-react";
+import { Search, Plus, ChevronDown, Eye, Ban } from "lucide-react";
 import Button from "@/components/ui/Button";
 import Input from "@/components/ui/Input";
 import Link from "next/link";
@@ -8,7 +8,12 @@ export default function Restaurants() {
     <div className="p-4 sm:p-6 bg-gray-50 min-h-screen">
       {/* Page Header */}
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6">
-        <h1 className="text-2xl font-semibold text-gray-800">Restaurants</h1>
+        <div>
+          <h1 className="text-2xl font-semibold text-gray-800">Restaurants</h1>
+          <p className="text-sm text-gray-600 mt-1">
+            Manage all restaurants and their subscriptions and expiries.
+          </p>
+        </div>
 
         {/* Add Restaurant Button */}
         <Link href={"/superadmin/restaurants/add"}>
@@ -124,10 +129,10 @@ export default function Restaurants() {
           <p className="text-sm text-gray-500 mb-4">Created: 2026-02-01</p>
 
           <div className="flex gap-2">
-            <Button variant="outline" className="flex-1">
+            <Button variant="outline" size="sm" Icon={Eye}>
               View
             </Button>
-            <Button variant="danger" className="flex-1">
+            <Button variant="danger" size="sm" Icon={Ban}>
               Suspend
             </Button>
           </div>
