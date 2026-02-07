@@ -1,7 +1,16 @@
 "use client";
 
 import { useState } from "react";
-import { Plus, Edit, Power, Check, Search, ChevronDown } from "lucide-react";
+import {
+  Plus,
+  Edit,
+  Power,
+  Check,
+  Search,
+  ChevronDown,
+  X,
+  Save,
+} from "lucide-react";
 import { useForm } from "react-hook-form";
 import Button from "@/components/ui/Button";
 import Input from "@/components/ui/Input";
@@ -39,6 +48,7 @@ const restaurants = [
 
 export default function SubscriptionManagement() {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
 
   const {
     register,
@@ -155,7 +165,14 @@ export default function SubscriptionManagement() {
                   </td>
                   <td className="px-4 py-3">
                     <div className="flex gap-2">
-                      <Button variant="outline" size="sm" Icon={Edit}>
+                      <Button
+                        onClick={() => {
+                          setIsEditModalOpen(true);
+                        }}
+                        variant="outline"
+                        size="sm"
+                        Icon={Edit}
+                      >
                         Edit
                       </Button>
                       <Button
@@ -198,7 +215,13 @@ export default function SubscriptionManagement() {
               </div>
 
               <div className="grid grid-cols-2 gap-2">
-                <Button variant="outline" Icon={Edit}>
+                <Button
+                  onClick={() => {
+                    setIsEditModalOpen(true);
+                  }}
+                  variant="outline"
+                  Icon={Edit}
+                >
                   Edit
                 </Button>
                 <Button
@@ -394,6 +417,98 @@ export default function SubscriptionManagement() {
             </Button>
             <Button type="submit" className="flex-1">
               Save Plan
+            </Button>
+          </div>
+        </form>
+      </Modal>
+
+      {/* Edit Plan Modal */}
+      <Modal
+        isOpen={isEditModalOpen}
+        onClose={() => setIsEditModalOpen(false)}
+        title="Edit Plan"
+      >
+        <form onSubmit={handleSubmit(onSubmit)}>
+          <div className="space-y-4">
+            {/* Plan Name */}
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Plan Name <span className="text-red-500">*</span>
+              </label>
+              <Input
+                type="text"
+                placeholder="Enter plan name"
+                {...register("name", { required: "Plan name is required" })}
+              />
+              {errors.name && (
+                <p className="text-xs text-red-500 mt-1">
+                  {errors.name.message}
+                </p>
+              )}
+            </div>
+
+            {/* Price */}
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Price <span className="text-red-500">*</span>
+              </label>
+              <Input
+                type="number"
+                placeholder="Enter price"
+                {...register("price", {
+                  required: "Price is required",
+                  min: { value: 1, message: "Price must be greater than 0" },
+                })}
+              />
+              {errors.price && (
+                <p className="text-xs text-red-500 mt-1">
+                  {errors.price.message}
+                </p>
+              )}
+            </div>
+
+            {/* Max Orders */}
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Max Orders (optional)
+              </label>
+              <Input
+                type="number"
+                placeholder="Enter max orders"
+                {...register("maxOrders", {
+                  min: { value: 1, message: "Must be at least 1" },
+                })}
+              />
+              {errors.maxOrders && (
+                <p className="text-xs text-red-500 mt-1">
+                  {errors.maxOrders.message}
+                </p>
+              )}
+            </div>
+
+            {/* Active Toggle */}
+            <div className="flex items-center gap-2">
+              <input
+                type="checkbox"
+                {...register("active")}
+                className="w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500"
+              />
+              <span className="text-sm font-medium text-gray-700">Active</span>
+            </div>
+          </div>
+
+          {/* Actions */}
+          <div className="flex gap-3 mt-6">
+            <Button
+              variant="outline"
+              onClick={() => setIsEditModalOpen(false)}
+              className="flex-1"
+              Icon={X}
+            >
+              Cancel
+            </Button>
+            <Button type="submit" className="flex-1" Icon={Save}>
+              Update Plan
             </Button>
           </div>
         </form>
