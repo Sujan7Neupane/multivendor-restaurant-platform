@@ -1,3 +1,4 @@
+"use client";
 import {
   Search,
   Plus,
@@ -10,6 +11,8 @@ import {
 import Button from "@/components/ui/Button";
 import Input from "@/components/ui/Input";
 import Link from "next/link";
+import { useState } from "react";
+import Modal from "../../../components/ui/Modal";
 
 const restaurants = [
   {
@@ -47,6 +50,11 @@ const suspendedRestaurants = restaurants.filter(
 ).length;
 
 export default function Restaurants() {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedRestaurant, setSelectedRestaurant] = useState<
+    (typeof restaurants)[number] | null
+  >(null);
+
   return (
     <div className="p-4 sm:p-6 bg-gray-50 min-h-screen">
       {/* Header */}
@@ -148,7 +156,15 @@ export default function Restaurants() {
                       Suspend
                     </Button>
                   )}
-                  <Button variant="outline" size="sm" Icon={Eye}>
+                  <Button
+                    onClick={() => {
+                      setSelectedRestaurant(r);
+                      setIsModalOpen(true);
+                    }}
+                    variant="outline"
+                    size="sm"
+                    Icon={Eye}
+                  >
                     View
                   </Button>
                   {r.status === "Pending" && (
@@ -190,7 +206,12 @@ export default function Restaurants() {
                   Suspend
                 </Button>
               )}
-              <Button variant="outline" Icon={Eye}>
+              <Button
+                onClick={() => setIsModalOpen(true)}
+                variant="outline"
+                size="sm"
+                Icon={Eye}
+              >
                 View
               </Button>
               {r.status === "Pending" && (
@@ -202,6 +223,81 @@ export default function Restaurants() {
           </div>
         ))}
       </div>
+
+      {/* View Restaurant Modal */}
+      <Modal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        title="Restaurant Details"
+      >
+        {selectedRestaurant && (
+          <div className="space-y-4 text-sm">
+            {/* Restaurant Name */}
+            <div>
+              <p className="text-gray-500">Restaurant Name</p>
+              <p className="font-medium text-gray-800">
+                {selectedRestaurant.name}
+              </p>
+            </div>
+
+            {/* Owner Email */}
+            <div>
+              <p className="text-gray-500">Owner Email</p>
+              <p className="font-medium text-gray-800">
+                {selectedRestaurant.email}
+              </p>
+            </div>
+
+            {/* Status */}
+            <div>
+              <p className="text-gray-500">Status</p>
+              <span
+                className={`inline-block mt-1 px-2.5 py-1 rounded-full text-xs font-medium ${
+                  selectedRestaurant.status === "Active"
+                    ? "bg-green-100 text-green-700"
+                    : selectedRestaurant.status === "Pending"
+                      ? "bg-yellow-100 text-yellow-700"
+                      : "bg-red-100 text-red-700"
+                }`}
+              >
+                {selectedRestaurant.status}
+              </span>
+            </div>
+
+            {/* Created Date */}
+            <div>
+              <p className="text-gray-500">Created On</p>
+              <p className="font-medium text-gray-800">
+                {selectedRestaurant.created}
+              </p>
+            </div>
+
+            {/* Actions */}
+            <div className="flex gap-3 pt-4">
+              {selectedRestaurant.status !== "Active" && (
+                <Button variant="success" className="flex-1" Icon={CheckCircle}>
+                  Activate
+                </Button>
+              )}
+
+              {selectedRestaurant.status === "Active" && (
+                <Button variant="danger" className="flex-1" Icon={Ban}>
+                  Suspend
+                </Button>
+              )}
+
+              <Button
+                onClick={() => setIsModalOpen(false)}
+                variant="outline"
+                className="flex-1"
+                Icon={X}
+              >
+                Close
+              </Button>
+            </div>
+          </div>
+        )}
+      </Modal>
 
       {/* Pagination Placeholder */}
       <div className="mt-6 flex justify-between items-center text-sm text-gray-600">
