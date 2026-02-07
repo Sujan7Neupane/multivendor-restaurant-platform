@@ -1,6 +1,9 @@
-import { Search, Eye } from "lucide-react";
+"use client";
+import { Search, Eye, X } from "lucide-react";
 import Button from "@/components/ui/Button";
 import Input from "@/components/ui/Input";
+import { useState } from "react";
+import Modal from "../../../components/ui/Modal";
 
 // Hardcoded orders (read-only)
 // TODO: replace with API + server-side pagination
@@ -52,6 +55,10 @@ const statusStyles: any = {
 };
 
 export default function OrderMonitoring() {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [individualOrder, setIndividualOrder] = useState<
+    (typeof orders)[number] | null
+  >(null);
   return (
     <div className="p-4 sm:p-6 bg-gray-50 min-h-screen">
       {/* Header */}
@@ -146,7 +153,15 @@ export default function OrderMonitoring() {
                 <td className="px-4 py-3 text-gray-600">{order.payment}</td>
                 <td className="px-4 py-3 text-gray-600">{order.date}</td>
                 <td className="px-4 py-3">
-                  <Button variant="outline" size="sm" Icon={Eye}>
+                  <Button
+                    onClick={() => {
+                      setIsModalOpen(true);
+                      setIndividualOrder(order);
+                    }}
+                    variant="outline"
+                    size="sm"
+                    Icon={Eye}
+                  >
                     View
                   </Button>
                 </td>
@@ -182,12 +197,96 @@ export default function OrderMonitoring() {
               {order.date} • {order.payment}
             </p>
 
-            <Button variant="outline" className="w-full" Icon={Eye}>
-              View Order Details
+            <Button
+              onClick={() => {
+                setIsModalOpen(true);
+                setIndividualOrder(order);
+              }}
+              variant="outline"
+              className="w-full"
+              Icon={Eye}
+            >
+              View
             </Button>
           </div>
         ))}
       </div>
+
+      {/* View Order Modal  */}
+      <Modal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        title="Order Details"
+      >
+        {individualOrder && (
+          <div className="space-y-4 text-sm">
+            {/* Order ID */}
+            <div>
+              <p className="text-gray-500 mb-1">Order ID</p>
+              <p className="font-medium text-gray-800">{individualOrder.id}</p>
+            </div>
+
+            {/* Ordered Restaurant */}
+            <div>
+              <p className="text-gray-500 mb-1">Ordered Restaurant</p>
+              <p className="font-medium text-gray-800">
+                {individualOrder.restaurant}
+              </p>
+            </div>
+
+            {/* Customer ID */}
+            <div>
+              <p className="text-gray-500 mb-1">Customer ID</p>
+              <p className="font-medium text-gray-800">
+                {individualOrder.customer}
+              </p>
+            </div>
+
+            {/* Status */}
+            <div>
+              <p className="text-gray-500 mb-1">Status</p>
+              <p
+                className={`inline-block px-2.5 py-1 text-xs font-medium rounded-full ${statusStyles[individualOrder.status]}`}
+              >
+                {individualOrder.status}
+              </p>
+            </div>
+
+            {/* Amount */}
+            <div>
+              <p className="text-gray-500 mb-1">Amount</p>
+              <p className="font-medium text-gray-800">
+                Rs. {individualOrder.amount}
+              </p>
+            </div>
+
+            {/* Date */}
+            <div>
+              <p className="text-gray-500 mb-1">Payment</p>
+              <p className="font-medium text-gray-800">
+                {individualOrder.payment}
+              </p>
+            </div>
+
+            {/* Date */}
+            <div>
+              <p className="text-gray-500 mb-1">Date and Time</p>
+              <p className="font-medium text-gray-800">
+                {individualOrder.date}
+              </p>
+            </div>
+
+            <Button
+              variant="outline"
+              className="flex-1 w-full"
+              onClick={() => setIsModalOpen(false)}
+              Icon={X}
+            >
+              Close
+            </Button>
+          </div>
+        )}
+      </Modal>
 
       {/* Pagination Placeholder */}
       <div className="mt-6 flex justify-between items-center text-sm text-gray-600">
