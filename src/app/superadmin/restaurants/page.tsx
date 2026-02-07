@@ -207,7 +207,10 @@ export default function Restaurants() {
                 </Button>
               )}
               <Button
-                onClick={() => setIsModalOpen(true)}
+                onClick={() => {
+                  setSelectedRestaurant(r);
+                  setIsModalOpen(true);
+                }}
                 variant="outline"
                 size="sm"
                 Icon={Eye}
